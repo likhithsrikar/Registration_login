@@ -11,8 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    private static final long serialVersionUID = 1L;
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -24,9 +25,12 @@ public class RegisterServlet extends HttpServlet {
 
         UserDao userDAO = new UserDao();
         if (userDAO.registerUser(user)) {
-            response.sendRedirect("Login.html"); // Redirect to login page
+            // Registration successful, redirect to login page
+            response.sendRedirect("Login.html");
         } else {
-            response.sendRedirect("Register.html"); // Redirect back to registration page
+            // Registration failed, redirect back to registration page with an error message
+            request.setAttribute("error", "Registration failed. Email may already exist.");
+            request.getRequestDispatcher("Register.html").forward(request, response);
         }
     }
 }

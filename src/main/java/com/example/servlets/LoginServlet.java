@@ -22,12 +22,12 @@ public class LoginServlet extends HttpServlet {
         UserD user = userDAO.loginUser(email, password);
 
         if (user != null) {
-            // Login successful, create a session
+      
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-            response.sendRedirect("home"); // Redirect to home page
+            response.sendRedirect("home"); 
         } else {
-            // Login failed, redirect back to login page with an error message
+            
             request.setAttribute("error", "Invalid email or password");
             request.getRequestDispatcher("Login.html").forward(request, response);
         }
